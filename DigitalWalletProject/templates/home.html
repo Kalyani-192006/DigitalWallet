@@ -1,0 +1,46 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Wallet - Home</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+</head>
+<body>
+
+  <!-- 🌐 Navbar -->
+  <nav class="navbar">
+    <div class="logo">🎒 DigitalWallet</div>
+    <ul class="nav-links">
+      <li><a href="{% url 'home'%}">Home</a></li>
+      <li><a href="{% url 'parent_register' %}">Parent</a></li>
+      <li><a href="{% url 'student_login' %}">student</a></li>
+      <li><a href="{% url 'vendor_register' %}">Vendor</a></li>
+      
+  </nav>
+  <br><br><br>
+<marquee behavior="scroll" direction="left" class="marquee">
+    Welcome to MyPocket Digital Wallet! Securely manage student funds with ease.
+  </marquee><br><br><br>
+
+  <!-- 🧩 Cards Section -->
+  {% load static %}
+<section class="card-section">
+  <div class="card" onclick="location.href='{% url 'parent_register' %}'">
+    <h2>👨‍👩‍👧 Parent</h2>
+    <p>Register, add your child, and manage their wallet securely.</p>
+  </div>
+  <div class="card" onclick="location.href='{% url 'student_login' %}'">
+    <h2>🎓 Student</h2>
+    <p>Login to view your balance, QR code, and spending history.</p>
+  </div>
+  <div class="card" onclick="location.href='{% url 'vendor_register' %}'">
+      <h2>🛒 Vendor</h2>
+      <p>Scan student QR, deduct amount, and track transactions easily.</p>
+    </div>
+</section>
+  
+
+</body>
+</html>

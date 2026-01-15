@@ -1,0 +1,23 @@
+
+
+{% extends 'vendor/dashboard.html' %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/vendor_dashboard.css' %}">
+  {%endblock%}
+{% block content %}
+  <div class="parent-info">
+    <h2>📜 Vendor Transactions</h2>
+    {% if transactions %}
+      <ul>
+        {% for txn in transactions %}
+          <li>
+            ₹{{ txn.amount }} to {{ txn.student.name }} on {{ txn.timestamp|date:"d M Y, h:i A" }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No transactions yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}

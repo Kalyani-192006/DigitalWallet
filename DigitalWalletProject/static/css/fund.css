@@ -1,0 +1,50 @@
+.qr-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background-color: #f0f4f8;
+  padding: 2rem;
+}
+
+.qr-card {
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+}
+
+.qr-card h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.qr-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.qr-card input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.qr-card button {
+  padding: 0.6rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.qr-card button:hover {
+  background-color: #218838;
+}

@@ -1,0 +1,36 @@
+.profile-wrapper {
+  padding: 2rem;
+  background-color: #f4f6f8;
+  min-height: 90vh;
+}
+
+.profile-card {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.student-list {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.student-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.student-list th, .student-list td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.student-list th {
+  background-color: #f0f0f0;
+}

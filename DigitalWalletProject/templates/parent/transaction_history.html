@@ -1,0 +1,37 @@
+{% extends 'parent/dashboard.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/transactions.css' %}">
+  <link rel="stylesheet" href="{% static 'css/parentdash.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="qr-wrapper">
+    <div class="qr-card">
+      <h2>📜 Transaction History</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">View History</button>
+      </form>
+
+      {% if student %}
+        <hr>
+        <h3>Transactions for {{ student.name }}</h3>
+        {% if transactions %}
+          <ul>
+            {% for txn in transactions %}
+              <li>
+                ₹{{ txn.amount }} - {{ txn.description }}<br>
+                <small>{{ txn.timestamp|date:"d M Y, h:i A" }}</small>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No transactions found.</p>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

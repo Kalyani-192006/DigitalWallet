@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Parent Registration</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="home-link-wrapper">
+        <a href="{% url 'home' %}" class="home-link">🏠 Home</a>
+      </div>
+      <h2>👪 Parent Registration</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+      </form>
+      <p>Already registered? <a href="{% url 'parent_login' %}">Login here</a></p>
+    </div>
+  </div>
+</body>
+</html>

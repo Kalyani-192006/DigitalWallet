@@ -1,0 +1,112 @@
+/* Dashboard container */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* Sidebar (vertical navbar) */
+.sidebar {
+    width: 220px;
+    background: #2c3e50;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active {
+    background: #1abc9c;
+    border-left: 4px solid #16a085;
+}
+
+/* Main content */
+.main-content {
+    flex: 1;
+    padding: 40px;
+}
+
+/* Form card */
+.form-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin: auto;
+}
+
+.form-card h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 22px;
+    text-align: center;
+}
+
+/* Form fields */
+.form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-card label {
+    font-weight: 600;
+    color: #34495e;
+}
+
+.form-card input[type="text"],
+.form-card input[type="number"],
+.form-card input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s;
+}
+
+.form-card input:focus {
+    border-color: #1abc9c;
+    outline: none;
+}
+
+/* Buttons */
+.btn-primary {
+    background: #1abc9c;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background: #16a085;
+}
+
+.btn-secondary {
+    background: #34495e;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+    background: #2c3e50;
+}

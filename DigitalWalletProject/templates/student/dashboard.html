@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Dashboard</title>
+  {% block css%}
+  <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+  <link rel="stylesheet" href="transactions.css">
+  {% endblock%}
+</head>
+<body>
+  {% block navbar%}
+  <div class="dashboard-container"> 
+    <!-- Sidebar --> <aside class="sidebar"> 
+      <div class="logo">🎒DigitalWallet</div>
+       <ul class="sidebar-nav">
+         <li><a href="{% url 'student_dashboard' %}">Profile</a></li>
+          <li><a href="{% url 'student_transactions' %}">Transactions</a></li>
+           <li> <form method="post" action="{% url 'student_logout' %}"> {% csrf_token %} 
+            <button type="submit" class="logout-btn">Logout</button> </form> </li> </ul>
+   </aside>
+{% endblock%}
+
+{% block content%}
+    <!-- Main content -->
+    
+    <main class="content">
+      <div class="card">
+        <h2>👤 Student Profile</h2>
+        <div class="grid">
+          <p><strong>Name:</strong> {{ student.name }}</p>
+          <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+          <p><strong>Parent:</strong> {{ student.parent.user.get_full_name }}</p>
+          <p><strong>Wallet Balance:</strong> ₹{{ student.wallet_balance }}</p>
+          <p><strong>Spending Limit:</strong> ₹{{ student.spending_limit }}</p>
+        </div>
+        <div class="qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ student.student_id }}" alt="QR Code">
+        </div>
+      </div>
+    </main>
+  </div>
+  {% endblock%}
+</body>
+</html>

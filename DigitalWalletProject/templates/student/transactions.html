@@ -1,0 +1,25 @@
+{% extends 'student/dashboard.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="transactions.css">
+<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+{% endblock%}
+{% block content %}
+  <div class="dashboard-wrapper">
+    <div class="transaction-card">
+      <h2>🧾 Transaction History</h2>
+      {% if transactions %}
+        <ul>
+          {% for txn in transactions %}
+            <li>
+              ₹{{ txn.amount }} - {{ txn.description }}<br>
+              <small>{{ txn.timestamp|date:"d M Y, h:i A" }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No transactions found.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

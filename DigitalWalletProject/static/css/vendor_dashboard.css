@@ -1,0 +1,162 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f8;
+}
+
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #2e3a59;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.home-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.sidebar-nav li {
+  margin-bottom: 1.2rem;
+}
+
+.sidebar-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.sidebar-nav a:hover {
+  background-color: #ffd369;
+  color: #2e3a59;
+}
+
+.logout-btn {
+  background: #ffd369;
+  color: #2e3a59;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dashboard-main {
+  flex-grow: 1;
+  padding: 2rem;
+}
+
+.parent-info {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Shared Card Style */
+.parent-info {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.parent-info h2, .parent-info h3 {
+  margin-top: 0;
+  color: #2e3a59;
+}
+
+/* Form Styling */
+.parent-info form {
+  margin-bottom: 1.5rem;
+}
+
+.parent-info form input,
+.parent-info form select,
+.parent-info form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.parent-info form button {
+  background-color: #2e3a59;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.parent-info form button:hover {
+  background-color: #1f2a40;
+}
+
+/* Student Details Section */
+.student-details {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-left: 4px solid #2e3a59;
+  border-radius: 8px;
+}
+
+.student-details img {
+  margin-top: 1rem;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  padding: 6px;
+}
+
+/* Transactions List */
+.parent-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.parent-info ul li {
+  background: #fdfdfd;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border-left: 4px solid #ffd369;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  color: #2e3a59;
+  font-size: 0.95rem;
+}

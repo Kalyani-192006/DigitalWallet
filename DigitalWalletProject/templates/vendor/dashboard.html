@@ -1,0 +1,45 @@
+<!-- vendor_dashboard.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vendor Dashboard</title>
+  {% block css %}
+  <link rel="stylesheet" href="{% static 'css/vendor_dashboard.css' %}">
+  {%endblock%}
+</head>
+<body>
+    {% block navbar%}
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">🎒DigitalWallet
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="{% url 'vendor_dashboard' %}">Profile</a></li>
+        <li><a href="{% url 'vendor_payment' %}">Make Payment</a></li>
+        <li><a href="{% url 'vendor_transactions' %}">Transactions</a></li>
+        <li>
+          <form method="post" action="{% url 'vendor_logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+          </form>
+        </li>
+      </ul>
+    </aside>
+{% endblock %}
+{% block content%}
+    <!-- Main Content -->
+    <main class="dashboard-main">
+     
+      <div class="parent-info">
+        <h2>🛍️ Vendor Profile</h2>
+        <p><strong>Name:</strong> {{ vendor.user.get_full_name }}</p>
+        <p><strong>Email:</strong> {{ vendor.user.email }}</p>
+        <p><strong>Phone:</strong> {{ vendor.phone }}</p>
+      </div>
+ {% endblock %}
+    </main>
+  </div>
+</body>
+</html>

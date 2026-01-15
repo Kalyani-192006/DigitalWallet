@@ -1,0 +1,28 @@
+{% extends 'parent/dashboard.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/fund.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/parentdash.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="qr-wrapper">
+    <div class="qr-card">
+      <h2>💰 Add Funds & Set Limit</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Wallet</button>
+      </form>
+
+      {% if student %}
+        <hr>
+        <h3>{{ student.name }}</h3>
+        <p><strong>Wallet Balance:</strong> ₹{{ student.wallet_balance }}</p>
+        <p><strong>Spending Limit:</strong> ₹{{ student.spending_limit }}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: sans-serif; }
+    h2 { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h2>Transaction History for {{ student.name }}</h2>
+  {% if start_date or end_date %}
+    <p>Filtered from {{ start_date }} to {{ end_date }}</p>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for txn in transactions %}
+      <tr>
+        <td>{{ txn.timestamp|date:"d M Y, h:i A" }}</td>
+        <td>₹{{ txn.amount }}</td>
+        <td>{{ txn.description }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

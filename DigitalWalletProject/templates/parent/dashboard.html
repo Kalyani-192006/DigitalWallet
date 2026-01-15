@@ -1,0 +1,83 @@
+
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parent Dashboard</title>
+  {% block css%}
+  <link rel="stylesheet" href="{% static 'css/parentdash.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/parent_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fund.css' %}">
+     <link rel="stylesheet" href="{% static 'css/transactions.css' %}">
+  {% endblock%}
+</head>
+<body>
+
+  {% block navbar%}
+  <!-- ☰ Hamburger Icon -->
+  <div class="menu-toggle" id="menuToggle"></div>
+
+  <div class="dashboard-container">
+    
+    <!-- 📚 Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">🎒DigitalWallet</div>
+      <ul class="sidebar-nav">
+        <li><a href="{% url 'parent_profile' %}">👤 Parent Profile</a></li>
+        <li><a href="{% url 'generate_qr'%}" >Add Student </a></li>
+        <li><a href="{% url 'fund_student'%}">Fund</a></li>
+        <li><a href="{% url 'transaction_history'%}">Transactions</a></li>
+        
+        
+      <li>
+  <form method="post" action="{% url 'parent_logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="logout-btn">Logout</button>
+  </form>
+</li>
+</aside>
+    {% endblock %}
+    {% block content %}
+
+    <!-- 📄 Main Content -->
+    <div class="profile-wrapper">
+    <div class="profile-card">
+      <h2>👤 Parent Profile</h2>
+      <p><strong>Name:</strong> {{ parent.user.first_name }} {{ parent.user.last_name }}</p>
+      <p><strong>Email:</strong> {{ parent.user.email }}</p>
+      <p><strong>Phone:</strong> {{ parent.phone }}</p>
+    </div>
+
+    <div class="student-list">
+      <h3>🎓 Linked Students</h3>
+      {% if students %}
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Student ID</th>
+              <th>Wallet Balance</th>
+              <th>Spending Limit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+              <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.student_id }}</td>
+                <td>₹{{ student.wallet_balance }}</td>
+                <td>₹{{ student.spending_limit }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No students linked yet.</p>
+      {% endif %}
+    </div>
+  </div>{% endblock %}
+ <!-- #<script src="js/parentdashboard.js"></script> -->
+</body>
+</html>

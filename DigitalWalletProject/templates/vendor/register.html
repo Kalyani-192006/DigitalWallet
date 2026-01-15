@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vendor Registration</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="home-link-wrapper">
+        <a href="{% url 'home' %}" class="home-link">🏠 Home</a>
+      </div>
+      <h2>🛍️ Vendor Registration</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        <button type="submit">Register</button>
+      </form>
+      <p>Already registered? <a href="{% url 'vendor_login' %}">Login here</a></p>
+    </div>
+  </div>
+</body>
+</html>

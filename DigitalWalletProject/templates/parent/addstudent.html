@@ -1,0 +1,23 @@
+{% extends "parent/dashboard.html" %}
+{% load static %}
+{% block content %}
+ <link rel="stylesheet" href="{% static 'css/addchild.css' %}" />
+<div class="main-content">
+    <h2>My Students</h2>
+    <ul>
+        {% for student in request.user.students.all %}
+            <li>
+                {{ student.name }} ({{ student.student_id }})
+                {% if student.qr_code %}
+                    <img src="{{ student.qr_code.url }}" alt="QR Code" width="120">
+                {% else %}
+                    <form method="post" action="{% url 'generate_qr' student.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary">Generate QR</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

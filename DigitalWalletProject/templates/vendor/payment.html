@@ -1,0 +1,30 @@
+
+
+
+{% extends 'vendor/dashboard.html' %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/vendor_dashboard.css' %}">
+  {%endblock%}
+
+{% block content %}
+  <div class="parent-info">
+    <h2>💳 Make a Payment</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit Payment</button>
+    </form>
+
+    {% if student %}
+      <hr>
+      <h3>🎓 Student Found</h3>
+      <p><strong>Name:</strong> {{ student.name }}</p>
+      <p><strong>Wallet Balance:</strong> ₹{{ student.wallet_balance }}</p>
+      <div class="student-details">
+        <p><strong>QR Code:</strong></p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ student.student_id }}" alt="QR Code">
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

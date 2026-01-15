@@ -1,0 +1,33 @@
+{% extends 'parent/dashboard.html'%}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Student QR</title>
+  {% block css%}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/parentdash.css' %}" />
+  {% endblock %}
+</head>
+<body>
+{%block content %}
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <h2>🎓 Add Student & Generate QR</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Generate QR</button>
+      </form>
+
+      {% if qr_data %}
+        <hr>
+        <h3>QR Code for {{ student.name }}</h3>
+        <p><strong>ID:</strong> {{ student.student_id }}</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ qr_data }}" alt="QR Code">
+      {% endif %}
+    </div>
+  </div>
+  {% endblock %}
+</body>
+</html>

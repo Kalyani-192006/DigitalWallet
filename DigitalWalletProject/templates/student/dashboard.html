@@ -30,7 +30,7 @@
         <div class="grid">
           <p><strong>Name:</strong> {{ student.name }}</p>
           <p><strong>Student ID:</strong> {{ student.student_id }}</p>
-          <p><strong>Parent:</strong> {{ student.parent.user.get_full_name }}</p>
+          <p><strong>Parent:</strong> {{ student.parent.user.username}}</p>
           <p><strong>Wallet Balance:</strong> ₹{{ student.wallet_balance }}</p>
           <p><strong>Spending Limit:</strong> ₹{{ student.spending_limit }}</p>
         </div>

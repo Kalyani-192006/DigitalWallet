@@ -1,12 +1,12 @@
 {% extends 'student/dashboard.html' %}
 {% load static %}
 {% block css %}
-<link rel="stylesheet" href="transactions.css">
+<link rel="stylesheet" href="{% static 'css/transactions.css'%}">
 <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
 {% endblock%}
 {% block content %}
-  <div class="dashboard-wrapper">
-    <div class="transaction-card">
+   <div class="qr-wrapper">
+    <div class="qr-card">
       <h2>🧾 Transaction History</h2>
       {% if transactions %}
         <ul>
@@ -23,3 +23,4 @@
     </div>
   </div>
 {% endblock %}
+

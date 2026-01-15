@@ -1,17 +1,26 @@
-from .forms import ParentRegisterForm, ParentLoginForm
-from .models import Parent
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from .forms import AddStudentForm
-from .models import Student, Parent,Transaction
-from .models import Student
-from .forms import FundForm,TransactionSearchForm
+
+from .forms import (
+    ParentRegisterForm, ParentLoginForm, AddStudentForm,
+    FundForm, TransactionSearchForm, StudentLoginForm,
+    VendorRegisterForm, VendorProfileForm, VendorLoginForm,
+    VendorPaymentForm
+)
+
+from .models import Parent, Student, Vendor, VendorTransaction
+
+
+# -------------------- Home --------------------
 
 def home(request):
     return render(request, 'home.html')
+
+
+# -------------------- Parent Views --------------------
 
 def parent_register(request):
     if request.method == 'POST':
@@ -29,6 +38,7 @@ def parent_register(request):
         form = ParentRegisterForm()
     return render(request, 'parent/register.html', {'form': form})
 
+
 def parent_login(request):
     if request.method == 'POST':
         form = ParentLoginForm(request.POST)
@@ -39,23 +49,33 @@ def parent_login(request):
             )
             if user is not None and hasattr(user, 'parent'):
                 login(request, user)
-                return redirect('parentdashboard')  
+                return redirect('parentdashboard')
             else:
                 messages.error(request, "Invalid credentials or not a parent account.")
     else:
         form = ParentLoginForm()
     return render(request, 'parent/login.html', {'form': form})
 
-def parentdashboard(request):
-    return render(request,'parent/dashboard.html')
 
+@login_required
+def parentdashboard(request):
+    return render(request, 'parent/dashboard.html')
+
+
+@login_required
+def parent_profile(request):
+    parent = Parent.objects.get(user=request.user)
+    students = Student.objects.filter(parent=parent)
+    return render(request, 'parent/profile.html', {
+        'parent': parent,
+        'students': students
+    })
 
 
 @login_required
 def generate_student_qr(request):
     qr_data = None
     student = None
-
     if request.method == 'POST':
         form = AddStudentForm(request.POST)
         if form.is_valid():
@@ -65,7 +85,6 @@ def generate_student_qr(request):
             qr_data = student.student_id
     else:
         form = AddStudentForm()
-
     return render(request, 'parent/generate_qr.html', {
         'form': form,
         'student': student,
@@ -73,19 +92,16 @@ def generate_student_qr(request):
     })
 
 
-
 @login_required
 def fund_student(request):
     parent = Parent.objects.get(user=request.user)
     student = None
-
     if request.method == 'POST':
         form = FundForm(request.POST)
         if form.is_valid():
             student_id = form.cleaned_data['student_id']
             amount = form.cleaned_data['amount']
             limit = form.cleaned_data['limit']
-
             try:
                 student = Student.objects.get(student_id=student_id, parent=parent)
                 student.wallet_balance += amount
@@ -96,9 +112,7 @@ def fund_student(request):
                 messages.error(request, "Student not found or does not belong to you.")
     else:
         form = FundForm()
-
     return render(request, 'parent/fund_student.html', {'form': form, 'student': student})
-
 
 
 @login_required
@@ -106,19 +120,17 @@ def transaction_history(request):
     parent = Parent.objects.get(user=request.user)
     transactions = []
     student = None
-
     if request.method == 'POST':
         form = TransactionSearchForm(request.POST)
         if form.is_valid():
             student_id = form.cleaned_data['student_id']
             try:
                 student = Student.objects.get(student_id=student_id, parent=parent)
-                transactions = student.transactions.all().order_by('-timestamp')
+                transactions = VendorTransaction.objects.filter(student=student).order_by('-timestamp')
             except Student.DoesNotExist:
                 messages.error(request, "Student not found or does not belong to you.")
     else:
         form = TransactionSearchForm()
-
     return render(request, 'parent/transaction_history.html', {
         'form': form,
         'student': student,
@@ -126,23 +138,12 @@ def transaction_history(request):
     })
 
 
-@login_required
-def parent_profile(request):
-    parent = Parent.objects.get(user=request.user)
-    students = Student.objects.filter(parent=parent)
-
-    return render(request, 'parent/profile.html', {
-        'parent': parent,
-        'students': students
-    })
-
-from django.contrib.auth import logout
-
 def parent_logout(request):
     logout(request)
-    return redirect('parent_login')  # or 'home' if you prefer
+    return redirect('parent_login')
 
-from .forms import StudentLoginForm
+
+# -------------------- Student Views --------------------
 
 def student_login(request):
     if request.method == 'POST':
@@ -150,53 +151,47 @@ def student_login(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             student_id = form.cleaned_data['student_id']
-
             try:
                 student = Student.objects.get(name=name, student_id=student_id)
-                request.session['student_id'] = student.id  # Store in session
+                request.session['student_id'] = student.id
                 return redirect('student_dashboard')
             except Student.DoesNotExist:
                 messages.error(request, "Invalid name or roll number, or student not registered by parent.")
     else:
         form = StudentLoginForm()
-
     return render(request, 'student/login.html', {'form': form})
 
-from django.contrib.auth.decorators import login_required
 
 def student_dashboard(request):
     student_id = request.session.get('student_id')
     if not student_id:
         return redirect('student_login')
-
     student = Student.objects.get(id=student_id)
     return render(request, 'student/dashboard.html', {'student': student})
 
-from .models import Transaction
 
 def student_transactions(request):
     student_id = request.session.get('student_id')
     if not student_id:
         return redirect('student_login')
-
-    student = Student.objects.get(id=student_id)
-    transactions = student.transactions.all().order_by('-timestamp')
-
+    try:
+        student = Student.objects.get(id=student_id)
+    except Student.DoesNotExist:
+        messages.error(request, "Student not found.")
+        return redirect('student_login')
+    transactions = VendorTransaction.objects.filter(student=student).order_by('-timestamp')
     return render(request, 'student/transactions.html', {
         'student': student,
         'transactions': transactions
     })
+
+
 def student_logout(request):
-    request.session.flush()  # Clear session
+    request.session.flush()
     return redirect('student_login')
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.contrib import messages
-from .forms import VendorRegisterForm, VendorProfileForm, VendorLoginForm, VendorPaymentForm
-from .models import Vendor, VendorTransaction
-  # adjust import based on your app structure
+
+# -------------------- Vendor Views --------------------
 
 def vendor_register(request):
     if request.method == 'POST':
@@ -219,6 +214,7 @@ def vendor_register(request):
         'profile_form': profile_form
     })
 
+
 def vendor_login(request):
     if request.method == 'POST':
         form = VendorLoginForm(request.POST)
@@ -239,16 +235,17 @@ def vendor_login(request):
         form = VendorLoginForm()
     return render(request, 'vendor/login.html', {'form': form})
 
+
 def vendor_dashboard(request):
     if not request.user.is_authenticated or not hasattr(request.user, 'vendor'):
         return redirect('vendor_login')
     return render(request, 'vendor/dashboard.html', {'vendor': request.user.vendor})
 
+
 def vendor_payment(request):
     student = None
     if not request.user.is_authenticated or not hasattr(request.user, 'vendor'):
         return redirect('vendor_login')
-
     vendor = request.user.vendor
     if request.method == 'POST':
         form = VendorPaymentForm(request.POST)
@@ -274,18 +271,18 @@ def vendor_payment(request):
                 messages.error(request, "Student not found.")
     else:
         form = VendorPaymentForm()
-
     return render(request, 'vendor/payment.html', {
         'form': form,
         'student': student
     })
 
+
 def vendor_transactions(request):
     if not request.user.is_authenticated or not hasattr(request.user, 'vendor'):
         return redirect('vendor_login')
-
     transactions = VendorTransaction.objects.filter(vendor=request.user.vendor).order_by('-timestamp')
     return render(request, 'vendor/transactions.html', {'transactions': transactions})
+
 
 def vendor_logout(request):
     logout(request)
